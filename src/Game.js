@@ -25,10 +25,19 @@ class Game extends Component {
   render() {
 
     const { movie } = this.state;
+    let letterCell = []; 
+
+    movie.map(letter => {
+      if(letter !== ' ')
+        letterCell.push((<div className="cell">{letter}</div>))
+      else
+        letterCell.push((<div className="empty-cell"></div>))
+    })
+
 
     return (
       <div>
-        {movie.map(letter => <div className="cell">{letter}</div>)}
+        {letterCell.map(letter => letter)}
       </div>
     );
   }
