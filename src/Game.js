@@ -4,6 +4,7 @@ import './App.css';
 class Game extends Component {
 
   state = {
+    letter: '',
     lifes: 10,
     movie: [],
     movies: []
@@ -15,7 +16,7 @@ class Game extends Component {
       const movies = await res.json();
       this.setState({
         //movie: movies.results[Math.round(Math.random() * (19 - 0) + 0)].title.toUpperCase().split(''),
-        movie: movies.results[7].title.toUpperCase().split(''),
+        movie: movies.results[13].title.toUpperCase().split(''),
         movies: movies.results 
       });
       console.log(movies.results);
@@ -24,14 +25,22 @@ class Game extends Component {
     }
   }
 
+  checkLetter = (letter) => {
+
+  }
+
+  updateLetter = (letter) => {
+    this.setState({letter: letter});
+  }
+
   render() {
 
-    const { movie, lifes } = this.state;
+    const { movie, lifes, letter } = this.state;
     let letterCell = []; 
 
     movie.map(letter => {
       if(letter !== ' ' && letter !== ':' && letter !== '-')
-        letterCell.push((<div className="cell">{letter}</div>))
+        letterCell.push((<div className="cell">{}</div>))
       else if (letter === ':' || letter === '-')
         letterCell.push((<div className="empty-cell">{letter}</div>))
       else
@@ -49,9 +58,20 @@ class Game extends Component {
           {letterCell.map(letter => letter)}
         </div>
         <div className="input-container">
-          <input className="input" type="text"></input>
+          <input onChange={(event) => {
+            let value = event.target.value.toUpperCase().split('')[0];
+            if (value !== undefined)
+              event.target.value = value;
+            else
+              event.target.value = '';
+            this.updateLetter(value)}
+          }
+            className="input" type="text">
+          </input>
         </div>
-        <button>Click</button>
+        <button onClick={(event) => {
+          this.checkLetter()
+        }}>Click</button>
         <div className="picked-letters"></div>
       </div>
     );
