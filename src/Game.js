@@ -5,6 +5,7 @@ class Game extends Component {
 
   state = {
     letter: '',
+    guessedLetters: [],
     lifes: 10,
     movie: [],
     movieAct: [],
@@ -35,15 +36,22 @@ class Game extends Component {
   }
 
   checkLetter = (letter) => {
-    let tempArray = this.state.movieAct;
+    let guessedLetterFlag = false;
+    let tempArrayMovieAct = this.state.movieAct;
+    let tempArrayGuessedLetters = this.state.guessedLetters;
     this.state.movie.forEach((movieChar, arrayIndex) => {
 
       if(movieChar === this.state.letter){
-        tempArray[arrayIndex] = this.state.letter;
-        this.setState({movieAct: tempArray})
+        tempArrayMovieAct[arrayIndex] = this.state.letter;
+        if(guessedLetterFlag === false){
+          tempArrayGuessedLetters.push(this.state.letter);
+          guessedLetterFlag = true
+        }
+        this.setState({guessedLetters: tempArrayGuessedLetters, movieAct: tempArrayMovieAct})
       }
 
     })
+    guessedLetterFlag = false
   }
 
   updateLetter = (letter) => {
@@ -52,7 +60,7 @@ class Game extends Component {
 
   render() {
 
-    const { movie, lifes, letter, movieAct } = this.state;
+    const { movie, lifes, letter, movieAct, guessedLetters } = this.state;
     let letterCell = []; 
 
     movieAct.map(letter => {
@@ -67,7 +75,7 @@ class Game extends Component {
 
     return (
       <div className="game">
-        <div className="lifes">Lifes:</div>
+        <div className="title">Lifes:</div>
         <div className="life-number">
           {lifes}
         </div>
@@ -89,7 +97,8 @@ class Game extends Component {
         <button onClick={(event) => {
           this.checkLetter()
         }}>Click</button>
-        <div className="picked-letters"></div>
+        <div className="title">Letters Already Picked:</div>
+        <div className="picked-letters">{guessedLetters.map(guessedLetter => (<div className="guessed-letter">{`${guessedLetter} `}</div>))}</div>
       </div>
     );
   }

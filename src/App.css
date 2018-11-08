@@ -62,7 +62,7 @@
   text-align: center;
 }
 
-.lifes {
+.title {
   margin: 1rem 0;
   font-size: 2rem;
 }
@@ -71,7 +71,7 @@
   font-size: 3rem;
   display: block;
   color: rgb(184, 18, 18);
-  display: inline-block;
+  display: inline;
   padding: .5rem;
   margin: .5rem;
   border-left: .1rem solid #000000;
@@ -80,5 +80,10 @@
 }
 
 .picked-letters {
+  margin: 1rem 1rem;
+}
 
+.guessed-letter {
+  display: inline;
+  font-size: 1.5rem;
 }
