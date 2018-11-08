@@ -7,6 +7,7 @@ class Game extends Component {
     letter: '',
     lifes: 10,
     movie: [],
+    movieAct: [],
     movies: []
   }
 
@@ -14,9 +15,17 @@ class Game extends Component {
     try {
       const res = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=a9a044fab959ff29628041fff2fcac7b&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1');
       const movies = await res.json();
+      let moviesAct = movies.results[6].title.toUpperCase().split('');
+      for (let index = 0; index < moviesAct.length; index++) {
+        if(moviesAct[index] !== ':' && moviesAct[index] !== '-' && moviesAct[index] !== ' ')
+          moviesAct[index] = '';
+        
+      }
+      
       this.setState({
         //movie: movies.results[Math.round(Math.random() * (19 - 0) + 0)].title.toUpperCase().split(''),
-        movie: movies.results[13].title.toUpperCase().split(''),
+        movie: movies.results[6].title.toUpperCase().split(''),
+        movieAct: moviesAct,
         movies: movies.results 
       });
       console.log(movies.results);
@@ -26,7 +35,15 @@ class Game extends Component {
   }
 
   checkLetter = (letter) => {
+    let tempArray = this.state.movieAct;
+    this.state.movie.forEach((movieChar, arrayIndex) => {
 
+      if(movieChar === this.state.letter){
+        tempArray[arrayIndex] = this.state.letter;
+        this.setState({movieAct: tempArray})
+      }
+
+    })
   }
 
   updateLetter = (letter) => {
@@ -35,12 +52,12 @@ class Game extends Component {
 
   render() {
 
-    const { movie, lifes, letter } = this.state;
+    const { movie, lifes, letter, movieAct } = this.state;
     let letterCell = []; 
 
-    movie.map(letter => {
+    movieAct.map(letter => {
       if(letter !== ' ' && letter !== ':' && letter !== '-')
-        letterCell.push((<div className="cell">{}</div>))
+        letterCell.push((<div className="cell">{letter}</div>))
       else if (letter === ':' || letter === '-')
         letterCell.push((<div className="empty-cell">{letter}</div>))
       else
