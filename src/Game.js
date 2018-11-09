@@ -39,19 +39,18 @@ class Game extends Component {
     let guessedLetterFlag = false;
     let tempArrayMovieAct = this.state.movieAct;
     let tempArrayGuessedLetters = this.state.guessedLetters;
+    tempArrayGuessedLetters.push(this.state.letter);
     this.state.movie.forEach((movieChar, arrayIndex) => {
 
       if(movieChar === this.state.letter){
         tempArrayMovieAct[arrayIndex] = this.state.letter;
-        if(guessedLetterFlag === false){
-          tempArrayGuessedLetters.push(this.state.letter);
-          guessedLetterFlag = true
-        }
-        this.setState({guessedLetters: tempArrayGuessedLetters, movieAct: tempArrayMovieAct})
+        
+        this.setState({movieAct: tempArrayMovieAct})
       }
 
     })
-    guessedLetterFlag = false
+    
+    this.setState({guessedLetters: tempArrayGuessedLetters});
   }
 
   updateLetter = (letter) => {
