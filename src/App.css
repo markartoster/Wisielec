@@ -87,3 +87,23 @@
   display: inline;
   font-size: 1.5rem;
 }
+
+.button-active {
+  -webkit-appearance: none;
+  padding: .5rem 3rem;
+  background-color: green;
+  color: white;
+  border-radius: .5rem;
+}
+
+.button-active:hover {
+  background-color: rgb(3, 194, 3);
+}
+
+.button-inactive {
+  -webkit-appearance: none;
+  padding: .5rem 3rem;
+  background-color: grey;
+  color: white;
+  border-radius: .5rem; 
+}

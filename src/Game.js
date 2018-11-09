@@ -19,8 +19,7 @@ class Game extends Component {
       let moviesAct = movies.results[6].title.toUpperCase().split('');
       for (let index = 0; index < moviesAct.length; index++) {
         if(moviesAct[index] !== ':' && moviesAct[index] !== '-' && moviesAct[index] !== ' ')
-          moviesAct[index] = '';
-        
+          moviesAct[index] = '';    
       }
       
       this.setState({
@@ -36,7 +35,7 @@ class Game extends Component {
   }
 
   checkLetter = (letter) => {
-    let guessedLetterFlag = false;
+    let isGuessedLetterCorrect = false;
     let tempArrayMovieAct = this.state.movieAct;
     let tempArrayGuessedLetters = this.state.guessedLetters;
     tempArrayGuessedLetters.push(this.state.letter);
@@ -44,13 +43,22 @@ class Game extends Component {
 
       if(movieChar === this.state.letter){
         tempArrayMovieAct[arrayIndex] = this.state.letter;
-        
         this.setState({movieAct: tempArrayMovieAct})
+        isGuessedLetterCorrect = true;
       }
 
     })
     
-    this.setState({guessedLetters: tempArrayGuessedLetters});
+    if (isGuessedLetterCorrect === false)
+      this.setState({guessedLetters: tempArrayGuessedLetters, lifes: (this.state.lifes-1)});
+    else
+      this.setState({guessedLetters: tempArrayGuessedLetters});
+    
+    if(this.state.lifes === 1){
+      document.getElementById("checkButton").disabled = true;
+      document.getElementById("checkButton").setAttribute('class', 'button-inactive');
+    }
+
   }
 
   updateLetter = (letter) => {
@@ -93,7 +101,7 @@ class Game extends Component {
             className="input" type="text">
           </input>
         </div>
-        <button onClick={(event) => {
+        <button id="checkButton" className="button-active" onClick={(event) => {
           this.checkLetter()
         }}>Click</button>
         <div className="title">Letters Already Picked:</div>
