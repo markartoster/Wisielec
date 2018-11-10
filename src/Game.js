@@ -55,16 +55,16 @@ class Game extends Component {
 
     })
     
-    if (isGuessedLetterCorrect === false)
+    if (isGuessedLetterCorrect === false && this.state.letter !== '')
       this.setState({guessedLetters: tempArrayGuessedLetters, lifes: (this.state.lifes-1)});
-    else
+    else if (isGuessedLetterCorrect === true && this.state.letter !== '')
       this.setState({guessedLetters: tempArrayGuessedLetters});
     
     if(this.state.lifes === 1){
       
     }
 
-    
+    this.setState({letter: ''})
     document.getElementById("letter-input").value = '';
   }
 
