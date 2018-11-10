@@ -58,11 +58,13 @@ class Game extends Component {
       document.getElementById("checkButton").disabled = true;
       document.getElementById("checkButton").setAttribute('class', 'button-inactive');
     }
-
+    
+    document.getElementById("letter-input").value = '';
   }
 
   updateLetter = (letter) => {
     this.setState({letter: letter});
+
   }
 
   render() {
@@ -90,13 +92,14 @@ class Game extends Component {
           {letterCell.map(letter => letter)}
         </div>
         <div className="input-container">
-          <input onChange={(event) => {
+          <input id="letter-input" onChange={(event) => {
             let value = event.target.value.toUpperCase().split('')[0];
             if (value !== undefined)
               event.target.value = value;
             else
               event.target.value = '';
-            this.updateLetter(value)}
+            this.updateLetter(value);
+            }
           }
             className="input" type="text">
           </input>
