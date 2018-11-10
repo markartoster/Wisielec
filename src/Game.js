@@ -32,6 +32,12 @@ class Game extends Component {
     } catch (e) {
       console.log(e);
     }
+    document.getElementById('letter-input').addEventListener('keydown', this.enterShortcut, false)
+  }
+
+  enterShortcut = (event) => {
+    if(event.key === 'Enter')
+        this.checkLetter(this.state.letter);
   }
 
   checkLetter = (letter) => {
@@ -55,19 +61,24 @@ class Game extends Component {
       this.setState({guessedLetters: tempArrayGuessedLetters});
     
     if(this.state.lifes === 1){
-      document.getElementById("checkButton").disabled = true;
-      document.getElementById("checkButton").setAttribute('class', 'button-inactive');
+      
     }
+
     
     document.getElementById("letter-input").value = '';
   }
 
   updateLetter = (letter) => {
     this.setState({letter: letter});
-
   }
 
   render() {
+
+    if(this.state.lifes === 0){
+      document.getElementById('letter-input').removeEventListener('keydown', this.enterShortcut, false);
+      document.getElementById("checkButton").disabled = true;
+      document.getElementById("checkButton").setAttribute('class', 'button-inactive');
+    }
 
     const { movie, lifes, letter, movieAct, guessedLetters } = this.state;
     let letterCell = []; 
