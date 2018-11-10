@@ -16,15 +16,24 @@ class Game extends Component {
     try {
       const res = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=a9a044fab959ff29628041fff2fcac7b&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1');
       const movies = await res.json();
-      let moviesAct = movies.results[6].title.toUpperCase().split('');
+      const randomIndex = Math.round(Math.random() * (19 - 0) + 0);
+      let movieDummy = movies.results[randomIndex].title.toUpperCase().split('');
+      let moviesAct = movieDummy;
+      let movie = movieDummy;
+      console.log(movieDummy);
+      console.log(movie);
+      
+      
+      
+      
       for (let index = 0; index < moviesAct.length; index++) {
         if(moviesAct[index] !== ':' && moviesAct[index] !== '-' && moviesAct[index] !== ' ')
           moviesAct[index] = '';    
       }
-      
+      console.log(movie);
+      console.log(movieDummy);
       this.setState({
-        //movie: movies.results[Math.round(Math.random() * (19 - 0) + 0)].title.toUpperCase().split(''),
-        movie: movies.results[6].title.toUpperCase().split(''),
+        movie: movies.results[randomIndex].title.toUpperCase().split(''),
         movieAct: moviesAct,
         movies: movies.results 
       });
