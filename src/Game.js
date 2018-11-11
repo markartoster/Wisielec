@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 class Game extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.toggle = this.toggle.bind(this);
+  }
 
   state = {
     letter: '',
     guessedLetters: [],
-    lifes: 10,
+    lifes: 3,
     movie: [],
     movieAct: [],
-    movies: []
+    movies: [],
+    modal: false
   }
+
+
 
   async componentDidMount() {
     try {
@@ -46,10 +57,10 @@ class Game extends Component {
 
   enterShortcut = (event) => {
     if(event.key === 'Enter')
-        this.checkLetter(this.state.letter);
+        this.checkLetter("Enter");
   }
 
-  checkLetter = (letter) => {
+  checkLetter = (inputFrom) => {
     let isGuessedLetterCorrect = false;
     let tempArrayMovieAct = this.state.movieAct;
     let tempArrayGuessedLetters = this.state.guessedLetters;
@@ -69,9 +80,10 @@ class Game extends Component {
     else if (isGuessedLetterCorrect === true && this.state.letter !== '')
       this.setState({guessedLetters: tempArrayGuessedLetters});
     
-    if(this.state.lifes === 1){
-      
-    }
+    if(this.state.lifes === 0 && inputFrom === "Enter")
+      this.toggle();
+    else if (this.state.lifes === 1 && inputFrom === "Button")
+      this.toggle();
 
     this.setState({letter: ''})
     document.getElementById("letter-input").value = '';
@@ -81,12 +93,33 @@ class Game extends Component {
     this.setState({letter: letter});
   }
 
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+
   render() {
 
+    const gameOverModal = (<div>
+                            <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                              <ModalHeader toggle={this.toggle}>Koniec gry</ModalHeader>
+                              <ModalBody>
+                                Wykorzystano wszystkie szanse!
+                              </ModalBody>
+                              <ModalFooter>
+                                <Button color="primary" onClick={this.toggle}>Zagraj ponownie</Button>{' '}
+                                <Button color="secondary" onClick={this.toggle}>Wyjście</Button>
+                              </ModalFooter>
+                            </Modal>
+                          </div>)
+
     if(this.state.lifes === 0){
+      
       document.getElementById('letter-input').removeEventListener('keydown', this.enterShortcut, false);
       document.getElementById("checkButton").disabled = true;
       document.getElementById("checkButton").setAttribute('class', 'button-inactive');
+      
     }
 
     const { movie, lifes, letter, movieAct, guessedLetters } = this.state;
@@ -125,10 +158,11 @@ class Game extends Component {
           </input>
         </div>
         <button id="checkButton" className="button-active" onClick={(event) => {
-          this.checkLetter()
+          this.checkLetter("Button")
         }}>Click</button>
         <div className="title">Letters Already Picked:</div>
         <div className="picked-letters">{guessedLetters.map(guessedLetter => (<div className="guessed-letter">{`${guessedLetter} `}</div>))}</div>
+        {gameOverModal}
       </div>
     );
   }
