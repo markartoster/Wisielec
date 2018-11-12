@@ -197,7 +197,7 @@ class Game extends Component {
 
     return (
       <div className="game">
-        <div className="title">Lifes:</div>
+        <div className="title">Życia:</div>
         <div className="life-number">
           {lifes}
         </div>
