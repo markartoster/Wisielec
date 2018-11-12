@@ -15,7 +15,7 @@ class Game extends Component {
   state = {
     letter: '',
     guessedLetters: [],
-    lifes: 3,
+    lifes: 10,
     correctGuesses: 0,
     lettersAmount: 0,
     movie: [],
@@ -130,7 +130,6 @@ class Game extends Component {
     });
   }
 
-
   toggleVictory = () => {
     this.resetGameHelper();
     this.setState({victoryModal: !this.state.victoryModal});
@@ -196,11 +195,11 @@ class Game extends Component {
         <div className="life-number">
           {lifes}
         </div>
-        <div>
+        <div className="movie-title">
           {letterCell.map(letter => letter)}
         </div>
         <div className="input-container">
-          <input id="letter-input" onChange={(event) => {
+          <input id="letter-input" placeholder="Wybierz literę" onChange={(event) => {
             let value = event.target.value.toUpperCase().split('')[0];
             if (value !== undefined)
               event.target.value = value;

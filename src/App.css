@@ -54,7 +54,7 @@
   padding: .5rem .5rem;
   border-bottom: .1rem solid #282c34;
   box-shadow: 0 0.1rem #d3d3d3;
-  -webkit-appearance: none;
+  -webkit-appearance: meter;
   outline: none;
 }
 
@@ -74,10 +74,14 @@
   color: rgb(184, 18, 18);
   display: inline;
   padding: .5rem;
-  margin: .5rem;
+  margin: 4rem;
   border-left: .1rem solid #000000;
   border-right: .1rem solid #000000;
   border-radius: 1rem;
+}
+
+.movie-title {
+  margin: 2rem 0;
 }
 
 .picked-letters {
