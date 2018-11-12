@@ -9,6 +9,10 @@ class App extends Component {
       <div className="App">
         <header className="App-header">Wisielec filmowy</header>
         <Game></Game>
+        <div className="footer">
+          <div className="footer-author">Aplikacja wykonana przez Karol Rosiński</div>
+          <div className="footer-info">Aplikacja korzysta z API MovieDB</div>         
+        </div>
       </div>
     );
   }
