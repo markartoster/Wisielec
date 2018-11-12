@@ -60,19 +60,46 @@ class Game extends Component {
 
   checkLetter = (inputFrom) => {
     let isGuessedLetterCorrect = false;
+    let isLetterPickedAlready = false;
     let tempArrayMovieAct = this.state.movieAct;
-    let tempArrayGuessedLetters = this.state.guessedLetters;
+    let tempArrayGuessedLetters = this.state.guessedLetters; 
     let tempCorrectGuesses = this.state.correctGuesses;
-    tempArrayGuessedLetters.push(this.state.letter);
 
-    this.state.movie.forEach((movieChar, arrayIndex) => {
-      if(movieChar === this.state.letter){
-        tempArrayMovieAct[arrayIndex] = this.state.letter;
-        tempCorrectGuesses++;
-        this.setState({movieAct: tempArrayMovieAct, correctGuesses: tempCorrectGuesses})
-        isGuessedLetterCorrect = true;
-      }
-    })
+    if(this.state.guessedLetters.length !== 0){
+      this.state.guessedLetters.forEach(letter => {
+        if(letter === this.state.letter){
+          isLetterPickedAlready = true;
+          // break;
+        }
+      })
+    }
+    
+    
+    
+    if(!isLetterPickedAlready){
+      tempArrayGuessedLetters.push(this.state.letter)
+      this.state.movie.forEach((movieChar, arrayIndex) => {
+        if(movieChar === this.state.letter){
+          tempArrayMovieAct[arrayIndex] = this.state.letter;
+          tempCorrectGuesses++;
+          this.setState({movieAct: tempArrayMovieAct, correctGuesses: tempCorrectGuesses})
+          isGuessedLetterCorrect = true;
+        }
+      })
+    }
+    
+      
+    
+    
+
+    // this.state.movie.forEach((movieChar, arrayIndex) => {
+    //   if(movieChar === this.state.letter){
+    //     tempArrayMovieAct[arrayIndex] = this.state.letter;
+    //     tempCorrectGuesses++;
+    //     this.setState({movieAct: tempArrayMovieAct, correctGuesses: tempCorrectGuesses})
+    //     isGuessedLetterCorrect = true;
+    //   }
+    // })
     
     if (isGuessedLetterCorrect === false && this.state.letter !== '')
       this.setState({guessedLetters: tempArrayGuessedLetters, lifes: (this.state.lifes-1)});
