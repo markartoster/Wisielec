@@ -20,9 +20,7 @@ class Game extends Component {
     movies: [],
     modal: false
   }
-
-
-
+  
   async componentDidMount() {
     try {
       const res = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=a9a044fab959ff29628041fff2fcac7b&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1');
@@ -31,24 +29,16 @@ class Game extends Component {
       let movieDummy = movies.results[randomIndex].title.toUpperCase().split('');
       let moviesAct = movieDummy;
       let movie = movieDummy;
-      console.log(movieDummy);
-      console.log(movie);
-      
-      
-      
       
       for (let index = 0; index < moviesAct.length; index++) {
         if(moviesAct[index] !== ':' && moviesAct[index] !== '-' && moviesAct[index] !== ' ')
           moviesAct[index] = '';    
       }
-      console.log(movie);
-      console.log(movieDummy);
       this.setState({
         movie: movies.results[randomIndex].title.toUpperCase().split(''),
         movieAct: moviesAct,
         movies: movies.results 
       });
-      console.log(movies.results);
     } catch (e) {
       console.log(e);
     }
@@ -65,14 +55,13 @@ class Game extends Component {
     let tempArrayMovieAct = this.state.movieAct;
     let tempArrayGuessedLetters = this.state.guessedLetters;
     tempArrayGuessedLetters.push(this.state.letter);
+    
     this.state.movie.forEach((movieChar, arrayIndex) => {
-
       if(movieChar === this.state.letter){
         tempArrayMovieAct[arrayIndex] = this.state.letter;
         this.setState({movieAct: tempArrayMovieAct})
         isGuessedLetterCorrect = true;
       }
-
     })
     
     if (isGuessedLetterCorrect === false && this.state.letter !== '')
@@ -80,11 +69,18 @@ class Game extends Component {
     else if (isGuessedLetterCorrect === true && this.state.letter !== '')
       this.setState({guessedLetters: tempArrayGuessedLetters});
     
-    if(this.state.lifes === 0 && inputFrom === "Enter")
+    if(this.state.lifes === 0 && inputFrom === "Enter"){
       this.toggle();
-    else if (this.state.lifes === 1 && inputFrom === "Button")
+      document.getElementById('letter-input').removeEventListener('keydown', this.enterShortcut, false);
+      document.getElementById("checkButton").disabled = true;
+      document.getElementById("checkButton").setAttribute('class', 'button-inactive');
+    }
+    else if (this.state.lifes === 1 && inputFrom === "Button"){
       this.toggle();
-
+      document.getElementById('letter-input').removeEventListener('keydown', this.enterShortcut, false);
+      document.getElementById("checkButton").disabled = true;
+      document.getElementById("checkButton").setAttribute('class', 'button-inactive');
+    }
     this.setState({letter: ''})
     document.getElementById("letter-input").value = '';
   }
@@ -113,14 +109,6 @@ class Game extends Component {
                               </ModalFooter>
                             </Modal>
                           </div>)
-
-    if(this.state.lifes === 0){
-      
-      document.getElementById('letter-input').removeEventListener('keydown', this.enterShortcut, false);
-      document.getElementById("checkButton").disabled = true;
-      document.getElementById("checkButton").setAttribute('class', 'button-inactive');
-      
-    }
 
     const { movie, lifes, letter, movieAct, guessedLetters } = this.state;
     let letterCell = []; 
@@ -160,7 +148,7 @@ class Game extends Component {
         <button id="checkButton" className="button-active" onClick={(event) => {
           this.checkLetter("Button")
         }}>Click</button>
-        <div className="title">Letters Already Picked:</div>
+        <div className="title">Wybrane litery:</div>
         <div className="picked-letters">{guessedLetters.map(guessedLetter => (<div className="guessed-letter">{`${guessedLetter} `}</div>))}</div>
         {gameOverModal}
       </div>
