@@ -1,7 +1,7 @@
 ## Wisielec Filmowy
 
 ## Access
-You can Access game via:
+You can Access game via link: [Wisielec Filmowy](https://markartoster.github.io/Wisielec/)
 
 ## How to play
 * Type letter/number in textfield
