@@ -9,16 +9,20 @@ class Game extends Component {
     super(props)
 
     this.toggle = this.toggle.bind(this);
+    this.toggleVictory = this.toggleVictory.bind(this);
   }
 
   state = {
     letter: '',
     guessedLetters: [],
     lifes: 3,
+    correctGuesses: 0,
+    lettersAmount: 0,
     movie: [],
     movieAct: [],
     movies: [],
-    modal: false
+    gameOverModal: false,
+    victoryModal: false
   }
   
   async componentDidMount() {
@@ -27,17 +31,21 @@ class Game extends Component {
       const movies = await res.json();
       const randomIndex = Math.round(Math.random() * (19 - 0) + 0);
       let movieDummy = movies.results[randomIndex].title.toUpperCase().split('');
+      let lettersAmount = 0;
       let moviesAct = movieDummy;
       let movie = movieDummy;
       
       for (let index = 0; index < moviesAct.length; index++) {
-        if(moviesAct[index] !== ':' && moviesAct[index] !== '-' && moviesAct[index] !== ' ')
-          moviesAct[index] = '';    
+        if(moviesAct[index] !== ':' && moviesAct[index] !== '-' && moviesAct[index] !== ' '){
+          lettersAmount++;
+          moviesAct[index] = '';
+        }    
       }
       this.setState({
         movie: movies.results[randomIndex].title.toUpperCase().split(''),
         movieAct: moviesAct,
-        movies: movies.results 
+        movies: movies.results,
+        lettersAmount: lettersAmount
       });
     } catch (e) {
       console.log(e);
@@ -54,12 +62,14 @@ class Game extends Component {
     let isGuessedLetterCorrect = false;
     let tempArrayMovieAct = this.state.movieAct;
     let tempArrayGuessedLetters = this.state.guessedLetters;
+    let tempCorrectGuesses = this.state.correctGuesses;
     tempArrayGuessedLetters.push(this.state.letter);
-    
+
     this.state.movie.forEach((movieChar, arrayIndex) => {
       if(movieChar === this.state.letter){
         tempArrayMovieAct[arrayIndex] = this.state.letter;
-        this.setState({movieAct: tempArrayMovieAct})
+        tempCorrectGuesses++;
+        this.setState({movieAct: tempArrayMovieAct, correctGuesses: tempCorrectGuesses})
         isGuessedLetterCorrect = true;
       }
     })
@@ -81,6 +91,12 @@ class Game extends Component {
       document.getElementById("checkButton").disabled = true;
       document.getElementById("checkButton").setAttribute('class', 'button-inactive');
     }
+
+    if(tempCorrectGuesses === this.state.lettersAmount){
+      this.toggleVictory();
+      console.log("Victory!");
+      
+    }
     this.setState({letter: ''})
     document.getElementById("letter-input").value = '';
   }
@@ -91,14 +107,20 @@ class Game extends Component {
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      gameOverModal: !this.state.gameOverModal
+    });
+  }
+
+  toggleVictory = () => {
+    this.setState({
+      victoryModal: !this.state.victoryModal
     });
   }
 
   render() {
 
     const gameOverModal = (<div>
-                            <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                            <Modal isOpen={this.state.gameOverModal} toggle={this.toggle} className={this.props.className}>
                               <ModalHeader toggle={this.toggle}>Koniec gry</ModalHeader>
                               <ModalBody>
                                 Wykorzystano wszystkie szanse!
@@ -106,6 +128,19 @@ class Game extends Component {
                               <ModalFooter>
                                 <Button color="primary" onClick={this.toggle}>Zagraj ponownie</Button>{' '}
                                 <Button color="secondary" onClick={this.toggle}>Wyjście</Button>
+                              </ModalFooter>
+                            </Modal>
+                          </div>)
+
+    const victoryModal = (<div>
+                            <Modal isOpen={this.state.victoryModal} toggle={this.toggleVictory} className={this.props.className}>
+                              <ModalHeader toggle={this.toggleVictory}>Gratulacje</ModalHeader>
+                              <ModalBody>
+                                Poprawnie odgadnięto tytuł filmu!
+                              </ModalBody>
+                              <ModalFooter>
+                                <Button color="primary" onClick={this.toggleVictory}>Zagraj ponownie</Button>{' '}
+                                <Button color="secondary" onClick={this.toggleVictory}>Wyjście</Button>
                               </ModalFooter>
                             </Modal>
                           </div>)
@@ -151,6 +186,7 @@ class Game extends Component {
         <div className="title">Wybrane litery:</div>
         <div className="picked-letters">{guessedLetters.map(guessedLetter => (<div className="guessed-letter">{`${guessedLetter} `}</div>))}</div>
         {gameOverModal}
+        {victoryModal}
       </div>
     );
   }
