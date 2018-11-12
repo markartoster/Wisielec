@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/Wisielec/static/css/1.a89637ac.chunk.css"
   },
   {
-    "revision": "909eb979219d216f46f7eb2b50240e1f",
+    "revision": "fa219e7289aabb485b753acfb9b30aad",
     "url": "/Wisielec/index.html"
   }
 ];
