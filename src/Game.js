@@ -8,8 +8,8 @@ class Game extends Component {
   constructor(props) {
     super(props)
 
-    this.toggle = this.toggle.bind(this);
-    this.toggleVictory = this.toggleVictory.bind(this);
+    this.toggleGameOverModal = this.toggleGameOverModal.bind(this);
+    this.toggleVictoryModal = this.toggleVictoryModal.bind(this);
   }
 
   state = {
@@ -80,20 +80,20 @@ class Game extends Component {
       this.setState({guessedLetters: tempArrayGuessedLetters});
     
     if(this.state.lifes === 0 && inputFrom === "Enter"){
-      this.toggle();
+      this.toggleGameOverModal();
       document.getElementById('letter-input').removeEventListener('keydown', this.enterShortcut, false);
       document.getElementById("checkButton").disabled = true;
       document.getElementById("checkButton").setAttribute('class', 'button-inactive');
     }
     else if (this.state.lifes === 1 && inputFrom === "Button"){
-      this.toggle();
+      this.toggleGameOverModal();
       document.getElementById('letter-input').removeEventListener('keydown', this.enterShortcut, false);
       document.getElementById("checkButton").disabled = true;
       document.getElementById("checkButton").setAttribute('class', 'button-inactive');
     }
 
     if(tempCorrectGuesses === this.state.lettersAmount){
-      this.toggleVictory();
+      this.toggleVictoryModal();
       console.log("Victory!");
       
     }
@@ -105,42 +105,74 @@ class Game extends Component {
     this.setState({letter: letter});
   }
 
-  toggle = () => {
+  
+
+  resetGameHelper = () => {
+    const randomIndex = Math.round(Math.random() * (19 - 0) + 0);
+    let lettersAmount = 0;
+    let movie = this.state.movies[randomIndex].title.toUpperCase().split('');
+    let moviesAct = movie
+
+    for (let index = 0; index < moviesAct.length; index++) {
+      if(moviesAct[index] !== ':' && moviesAct[index] !== '-' && moviesAct[index] !== ' '){
+        lettersAmount++;
+        moviesAct[index] = '';
+      }    
+    }
+
     this.setState({
-      gameOverModal: !this.state.gameOverModal
+      correctGuesses: 0,
+      movieAct: moviesAct,
+      movie: this.state.movies[randomIndex].title.toUpperCase().split(''),
+      lettersAmount: lettersAmount,
+      guessedLetters: [],
+      lifes: 10
     });
   }
 
+
   toggleVictory = () => {
-    this.setState({
-      victoryModal: !this.state.victoryModal
-    });
+    this.resetGameHelper();
+    this.setState({victoryModal: !this.state.victoryModal});
+  }
+
+  toggleGameOver = () => {
+    this.resetGameHelper();
+    document.getElementById('letter-input').addEventListener('keydown', this.enterShortcut, false);
+    document.getElementById("checkButton").disabled = false;
+    document.getElementById("checkButton").setAttribute('class', 'button-active');
+    this.setState({gameOverModal: !this.state.gameOverModal})
+  }
+
+  toggleVictoryModal = () => {
+    this.setState({victoryModal: !this.state.victoryModal})
+  }
+  toggleGameOverModal = () => {
+    this.setState({gameOverModal: !this.state.gameOverModal});
   }
 
   render() {
 
     const gameOverModal = (<div>
-                            <Modal isOpen={this.state.gameOverModal} toggle={this.toggle} className={this.props.className}>
-                              <ModalHeader toggle={this.toggle}>Koniec gry</ModalHeader>
+                            <Modal isOpen={this.state.gameOverModal} className={this.props.className}>
+                              <ModalHeader>Koniec gry</ModalHeader>
                               <ModalBody>
                                 Wykorzystano wszystkie szanse!
                               </ModalBody>
                               <ModalFooter>
-                                <Button color="primary" onClick={this.toggle}>Zagraj ponownie</Button>{' '}
-                                <Button color="secondary" onClick={this.toggle}>Wyjście</Button>
+                                <Button color="primary" onClick={this.toggleGameOver}>Zagraj ponownie</Button>
                               </ModalFooter>
                             </Modal>
                           </div>)
 
     const victoryModal = (<div>
-                            <Modal isOpen={this.state.victoryModal} toggle={this.toggleVictory} className={this.props.className}>
-                              <ModalHeader toggle={this.toggleVictory}>Gratulacje</ModalHeader>
+                            <Modal isOpen={this.state.victoryModal} className={this.props.className}>
+                              <ModalHeader>Gratulacje</ModalHeader>
                               <ModalBody>
                                 Poprawnie odgadnięto tytuł filmu!
                               </ModalBody>
                               <ModalFooter>
-                                <Button color="primary" onClick={this.toggleVictory}>Zagraj ponownie</Button>{' '}
-                                <Button color="secondary" onClick={this.toggleVictory}>Wyjście</Button>
+                                <Button color="primary" onClick={this.toggleVictory}>Zagraj ponownie</Button>
                               </ModalFooter>
                             </Modal>
                           </div>)
