@@ -33,7 +33,6 @@ class Game extends Component {
       let movieDummy = movies.results[randomIndex].title.toUpperCase().split('');
       let lettersAmount = 0;
       let moviesAct = movieDummy;
-      let movie = movieDummy;
       
       for (let index = 0; index < moviesAct.length; index++) {
         if(moviesAct[index] !== ':' && moviesAct[index] !== '-' && moviesAct[index] !== ' '){
@@ -69,13 +68,10 @@ class Game extends Component {
       this.state.guessedLetters.forEach(letter => {
         if(letter === this.state.letter){
           isLetterPickedAlready = true;
-          // break;
         }
       })
     }
-    
-    
-    
+  
     if(!isLetterPickedAlready){
       tempArrayGuessedLetters.push(this.state.letter)
       this.state.movie.forEach((movieChar, arrayIndex) => {
@@ -87,19 +83,6 @@ class Game extends Component {
         }
       })
     }
-    
-      
-    
-    
-
-    // this.state.movie.forEach((movieChar, arrayIndex) => {
-    //   if(movieChar === this.state.letter){
-    //     tempArrayMovieAct[arrayIndex] = this.state.letter;
-    //     tempCorrectGuesses++;
-    //     this.setState({movieAct: tempArrayMovieAct, correctGuesses: tempCorrectGuesses})
-    //     isGuessedLetterCorrect = true;
-    //   }
-    // })
     
     if (isGuessedLetterCorrect === false && this.state.letter !== '')
       this.setState({guessedLetters: tempArrayGuessedLetters, lifes: (this.state.lifes-1)});
@@ -121,8 +104,6 @@ class Game extends Component {
 
     if(tempCorrectGuesses === this.state.lettersAmount){
       this.toggleVictoryModal();
-      console.log("Victory!");
-      
     }
     this.setState({letter: ''})
     document.getElementById("letter-input").value = '';
@@ -131,8 +112,6 @@ class Game extends Component {
   updateLetter = (letter) => {
     this.setState({letter: letter});
   }
-
-  
 
   resetGameHelper = () => {
     const randomIndex = Math.round(Math.random() * (19 - 0) + 0);
@@ -203,16 +182,16 @@ class Game extends Component {
                             </Modal>
                           </div>)
 
-    const { movie, lifes, letter, movieAct, guessedLetters } = this.state;
+    const { lifes, movieAct, guessedLetters } = this.state;
     let letterCell = []; 
 
-    movieAct.map(letter => {
+    movieAct.forEach((letter, index) => {
       if(letter !== ' ' && letter !== ':' && letter !== '-')
-        letterCell.push((<div className="cell">{letter}</div>))
+        letterCell.push((<div key={`${letter}${index}`} className="cell">{letter}</div>))
       else if (letter === ':' || letter === '-')
-        letterCell.push((<div className="empty-cell">{letter}</div>))
+        letterCell.push((<div key={`${letter}${index}`} className="empty-cell">{letter}</div>))
       else
-        letterCell.push((<div className="empty-cell"></div>))
+        letterCell.push((<div key={`${letter}${index}`} className="empty-cell"></div>))
     })
 
 
@@ -242,7 +221,7 @@ class Game extends Component {
           this.checkLetter("Button")
         }}>Click</button>
         <div className="title">Wybrane litery:</div>
-        <div className="picked-letters">{guessedLetters.map(guessedLetter => (<div className="guessed-letter">{`${guessedLetter} `}</div>))}</div>
+        <div className="picked-letters">{guessedLetters.map((guessedLetter, index) => (<div key={`${guessedLetter}${index}`} className="guessed-letter">{`${guessedLetter} `}</div>))}</div>
         {gameOverModal}
         {victoryModal}
       </div>
