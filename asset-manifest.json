@@ -1,15 +1,15 @@
 {
   "main.css": "/Wisielec/static/css/main.0b69c628.chunk.css",
-  "main.js": "/Wisielec/static/js/main.6fe49872.chunk.js",
-  "main.js.map": "/Wisielec/static/js/main.6fe49872.chunk.js.map",
+  "main.js": "/Wisielec/static/js/main.e45a94ba.chunk.js",
+  "main.js.map": "/Wisielec/static/js/main.e45a94ba.chunk.js.map",
   "static/css/1.a89637ac.chunk.css": "/Wisielec/static/css/1.a89637ac.chunk.css",
   "static/js/1.3c84e96e.chunk.js": "/Wisielec/static/js/1.3c84e96e.chunk.js",
   "static/js/1.3c84e96e.chunk.js.map": "/Wisielec/static/js/1.3c84e96e.chunk.js.map",
   "runtime~main.js": "/Wisielec/static/js/runtime~main.ba37dd50.js",
   "runtime~main.js.map": "/Wisielec/static/js/runtime~main.ba37dd50.js.map",
-  "static/css/1.a89637ac.chunk.css.map": "/Wisielec/static/css/1.a89637ac.chunk.css.map",
   "static/css/main.0b69c628.chunk.css.map": "/Wisielec/static/css/main.0b69c628.chunk.css.map",
+  "static/css/1.a89637ac.chunk.css.map": "/Wisielec/static/css/1.a89637ac.chunk.css.map",
   "index.html": "/Wisielec/index.html",
-  "precache-manifest.51adac89c2978068175203fd15550158.js": "/Wisielec/precache-manifest.51adac89c2978068175203fd15550158.js",
+  "precache-manifest.304b8a447f6ec1d3637edc193939b8dd.js": "/Wisielec/precache-manifest.304b8a447f6ec1d3637edc193939b8dd.js",
   "service-worker.js": "/Wisielec/service-worker.js"
 }
