@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/Wisielec/precache-manifest.304b8a447f6ec1d3637edc193939b8dd.js"
+  "/Wisielec/precache-manifest.b74229021ffe43a73e71e16e01d5087f.js"
 );
 
 workbox.clientsClaim();
