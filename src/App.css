@@ -166,6 +166,6 @@
   }
 
   .footer {
-    position: absolute;
+    display: none;
   }
 }
